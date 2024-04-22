@@ -1,0 +1,10 @@
+This product includes a derivation (`HTTPStatus`) of `HTTPResponseStatus` from the SwiftNIO open source project.
+
+	* LICENSE (Apache License 2.0):
+		* https://www.apache.org/licenses/LICENSE-2.0
+	* HOMEPAGE:
+		* https://github.com/apple/swift-nio
+	* ORIGINAL SOURCE:
+		* https://github.com/apple/swift-nio/blob/c51907a839e63ebf0ba2076bba73dd96436bd1b9/Sources/NIOHTTP1/HTTPTypes.swift#L1095
+		
+See LICENSE.txt for full license details.
