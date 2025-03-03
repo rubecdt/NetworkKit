@@ -519,3 +519,79 @@ extension HTTPStatus: ExpressibleByIntegerLiteral {
 		self.init(statusCode: value)
 	}
 }
+
+// MARK: - Status classification
+public extension HTTPStatus {
+	
+	/// Represents the class of an HTTP status code based on its first digit.
+	///
+	/// Categorization follows the official HTTP status code definitions from:
+	/// - [RFC 9110, Section 15](https://httpwg.org/specs/rfc9110.html#status.codes)
+	enum Class: Sendable {
+		/// **1xx - Informational**
+		/// The request has been received and understood; processing continues.
+		///
+		/// - **Reference**: [RFC 9110, Section 15.2](https://httpwg.org/specs/rfc9110.html#informational.responses)
+		case informational
+		
+		/// **2xx - Success**
+		/// The request was successfully received, understood, and accepted.
+		///
+		/// - **Reference**: [RFC 9110, Section 15.3](https://httpwg.org/specs/rfc9110.html#successful.responses)
+		case success
+		
+		/// **3xx - Redirection**
+		/// Further action is needed to complete the request, typically requiring client redirection.
+		///
+		/// - **Reference**: [RFC 9110, Section 15.4](https://httpwg.org/specs/rfc9110.html#redirection.responses)
+		case redirection
+		
+		/// **4xx - Client Error**
+		/// The request contains bad syntax or cannot be fulfilled due to a client-side issue.
+		///
+		/// - **Reference**: [RFC 9110, Section 15.5](https://httpwg.org/specs/rfc9110.html#client.error.responses)
+		case clientError
+		
+		/// **5xx - Server Error**
+		/// The server encountered an error while processing a valid request.
+		///
+		/// - **Reference**: [RFC 9110, Section 15.6](https://httpwg.org/specs/rfc9110.html#server.error.responses)
+		case serverError
+		
+		/// **Unknown**
+		/// The status code is either non-standard, outside of the recognized ranges,
+		/// or not defined in the official HTTP specifications.
+		case unknown
+	}
+	
+	/// The class of the HTTP status code.
+	///
+	/// The classification is based on the HTTP/1.1 specification in:
+	/// - [RFC 9110, Section 15](https://httpwg.org/specs/rfc9110.html#status.codes)
+	///
+	/// ### **Classes:**
+	/// - `.informational` → **1xx**: Request received, server continuing process.
+	/// - `.success` → **2xx**: Request successfully processed.
+	/// - `.redirection` → **3xx**: Further client action required.
+	/// - `.clientError` → **4xx**: Issue with client request.
+	/// - `.serverError` → **5xx**: Server encountered an error.
+	/// - `.unknown` → Non-standard or undefined status codes.
+	///
+	/// - Returns: A ``Class-swift.enum`` case representing the classification of the status code.
+	var `class`: Class {
+		switch code {
+		case 100..<200:
+			return .informational
+		case 200..<300:
+			return .success
+		case 300..<400:
+			return .redirection
+		case 400..<500:
+			return .clientError
+		case 500..<600:
+			return .serverError
+		default:
+			return .unknown
+		}
+	}
+}

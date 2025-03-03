@@ -13,7 +13,7 @@ import enum NetworkCore.HTTPStatus
 @Suite("NetworkError")
 struct NetworkErrorTests {
 	@Test("Status static method",
-		  arguments: HTTPStatus.allCases)
+		  arguments: HTTPStatus.standardCases)
 	func statusStaticMethod(status: HTTPStatus) {
 		let code = Int(status.code)
 		#expect(NetworkError.status(code) == NetworkError.status(status))
@@ -45,79 +45,8 @@ struct NetworkErrorTests {
 	@Test(arguments: HTTPStatus.allCases)
 	func errorDescription(status: HTTPStatus) async throws {
 		let error = NetworkError.status(status)
-		#expect(error.localizedDescription.range(of: status.description) != nil)
+		#expect(error.localizedDescription.contains( status.description))
 	}
-}
-
-extension HTTPStatus: CaseIterable {
-	public static let allCases: [NetworkCore.HTTPStatus] = [
-		// 1xx
-		.`continue`,
-		.switchingProtocols,
-		.processing,
-		.earlyHints,
-		// 2xx
-		.ok,
-		.created,
-		.accepted,
-		.nonAuthoritativeInformation,
-		.noContent,
-		.resetContent,
-		.partialContent,
-		.multiStatus,
-		.alreadyReported,
-		.imUsed,
-		// 3xx
-		.multipleChoices,
-		.movedPermanently,
-		.found,
-		.seeOther,
-		.notModified,
-		.useProxy,
-		.temporaryRedirect,
-		.permanentRedirect,
-		// 4xx
-		.badRequest,
-		.unauthorized,
-		.paymentRequired,
-		.forbidden,
-		.notFound,
-		.methodNotAllowed,
-		.notAcceptable,
-		.proxyAuthenticationRequired,
-		.requestTimeout,
-		.conflict,
-		.gone,
-		.lengthRequired,
-		.preconditionFailed,
-		.payloadTooLarge,
-		.uriTooLong,
-		.unsupportedMediaType,
-		.rangeNotSatisfiable,
-		.expectationFailed,
-		.imATeapot,
-		.misdirectedRequest,
-		.unprocessableEntity,
-		.locked,
-		.failedDependency,
-		.upgradeRequired,
-		.preconditionRequired,
-		.tooManyRequests,
-		.requestHeaderFieldsTooLarge,
-		.unavailableForLegalReasons,
-		// 5xx
-		.internalServerError,
-		.notImplemented,
-		.badGateway,
-		.serviceUnavailable,
-		.gatewayTimeout,
-		.httpVersionNotSupported,
-		.variantAlsoNegotiates,
-		.insufficientStorage,
-		.loopDetected,
-		.notExtended,
-		.networkAuthenticationRequired,
-	]
 }
 
 extension NetworkError: CaseIterable {

@@ -8,6 +8,7 @@
 import Foundation
 @_exported public import protocol NetworkCore.NetworkInteractor
 @_exported public import enum NetworkCore.NetworkError
+@_exported public import enum NetworkCore.HTTPStatus
 
 /// A protocol defining the interface for fetching and decoding JSON data over the network.
 ///
